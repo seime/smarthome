@@ -64,10 +64,12 @@ public class ChannelState implements MqttMessageSubscriber {
     /**
      * Creates a new channel state.
      *
-     * @param config The channel configuration
-     * @param channelUID The channelUID is used for the {@link ChannelStateUpdateListener} to notify about value changes
-     * @param cachedValue MQTT only notifies us once about a value, during the subscribe. The channel state therefore
-     *            needs a cache for the current value.
+     * @param config                     The channel configuration
+     * @param channelUID                 The channelUID is used for the {@link ChannelStateUpdateListener} to notify
+     *                                       about value changes
+     * @param cachedValue                MQTT only notifies us once about a value, during the subscribe. The channel
+     *                                       state therefore
+     *                                       needs a cache for the current value.
      * @param channelStateUpdateListener A channel state update listener
      */
     public ChannelState(ChannelConfig config, ChannelUID channelUID, Value cachedValue,
@@ -122,7 +124,7 @@ public class ChannelState implements MqttMessageSubscriber {
     /**
      * Incoming message from the MqttBrokerConnection
      *
-     * @param topic The topic. Is the same as the field stateTopic.
+     * @param topic   The topic. Is the same as the field stateTopic.
      * @param payload The byte payload. Must be UTF8 encoded text or binary data.
      */
     @Override
@@ -165,8 +167,8 @@ public class ChannelState implements MqttMessageSubscriber {
         try {
             cachedValue.update(command);
         } catch (IllegalArgumentException | IllegalStateException e) {
-            logger.warn("Command '{}' not supported by type '{}': {}", strvalue, cachedValue.getClass().getSimpleName(),
-                    e.getMessage());
+            logger.warn("Command '{}' not supported by type '{}' for channel '{}': {}", strvalue,
+                    cachedValue.getClass().getSimpleName(), channelUID.toString(), e.getMessage());
             receivedOrTimeout();
             return;
         }
@@ -252,9 +254,10 @@ public class ChannelState implements MqttMessageSubscriber {
     /**
      * Subscribes to the state topic on the given connection and informs about updates on the given listener.
      *
-     * @param connection A broker connection
-     * @param scheduler A scheduler to realize the timeout
-     * @param timeout A timeout in milliseconds. Can be 0 to disable the timeout and let the future return earlier.
+     * @param connection                 A broker connection
+     * @param scheduler                  A scheduler to realize the timeout
+     * @param timeout                    A timeout in milliseconds. Can be 0 to disable the timeout and let the future
+     *                                       return earlier.
      * @param channelStateUpdateListener An update listener
      * @return A future that completes with true if the subscribing worked, with false if the stateTopic is not set
      *         and exceptionally otherwise.
