@@ -125,8 +125,8 @@ public class MapTransformationProfile implements StateProfile {
                 result = state.toFullString();
             }
         } catch (TransformationException e) {
-            logger.warn("Could not transform state '{}' with function '{}' and format '{}'", state, function,
-                    sourceFormat);
+            logger.warn("Could not transform state '{}' with function '{}' and format '{}' due to '{}'", state,
+                    function, sourceFormat, e.getMessage());
         }
         StringType resultType = new StringType(result);
         logger.debug("Transformed '{}' into '{}'", state, resultType);
